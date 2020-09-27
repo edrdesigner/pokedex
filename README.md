@@ -2,7 +2,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with ts.
 
 ### Heroku version
-- [**Live**](https://pokedex-react.herokuapp.com/)
+- [**Live**](https://pokedex-rc.herokuapp.com/)
 
 ## Available Scripts
 

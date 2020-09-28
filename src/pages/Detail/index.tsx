@@ -23,34 +23,6 @@ import {
   ContentBar,
 } from './styles';
 
-interface Attributes {
-  base_stat: number;
-  stat: {
-    name: string;
-  };
-}
-
-interface Abilitys {
-  ability: {
-    name: string;
-  };
-}
-
-interface Types {
-  type: {
-    name: string;
-  };
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  stats: Attributes[];
-  abilities: Abilitys[];
-  types: Types[];
-  color: string;
-}
-
 interface RouteParams {
   pokemonId: string;
 }
@@ -92,7 +64,7 @@ const Detail: React.FC = () => {
     <Container>
       <HeaderContainer type={pokemon.types[0].type.name}>
         <HeaderContent>
-          <BackButton type="button" onClick={handleBack}>
+          <BackButton data-testid="back" type="button" onClick={handleBack}>
             <FiArrowLeft />
           </BackButton>
           <Content>

@@ -41,22 +41,23 @@ const Dashboard: React.FC = () => {
       });
 
       const { results, count } = response.data;
+      try {
+        const loadedPokemons = await Promise.all(
+          results.map(async (pokemon: Pokemon) => {
+            const { id, types } = await getPokemonInfo(pokemon.url);
+            return {
+              name: pokemon.name,
+              id,
+              types,
+            };
+          }),
+        );
 
-      const loadedPokemons = await Promise.all(
-        results.map(async (pokemon: Pokemon) => {
-          const { id, types } = await getPokemonInfo(pokemon.url);
-
-          return {
-            name: pokemon.name,
-            id,
-            types,
-          };
-        }),
-      );
-
-      setMeta({ total: count });
-      setPokemons(loadedPokemons as Pokemon[]);
-      setFetching(false);
+        setMeta({ total: count });
+        setPokemons(loadedPokemons as Pokemon[]);
+      } finally {
+        setFetching(false);
+      }
     }
 
     loadItems();
@@ -75,14 +76,15 @@ const Dashboard: React.FC = () => {
     [pagination.limit],
   );
 
-  const renderPokeminItem = useCallback((pokemon: Pokemon) => {
+  const renderPokemonItem = useCallback((pokemon: Pokemon) => {
     return (
       <PokemonCard
+        id={`pokemon-${pokemon.id}`}
         key={pokemon.id}
         to={`detail/${pokemon.id}`}
         type={pokemon.types[0].type.name}
       >
-        <LeftSide>
+        <LeftSide data-testid={`pokemon-${pokemon.name}`}>
           <strong>{pokemon.id}</strong>
           <p>{pokemon.name}</p>
           <PokemonContentType>
@@ -108,11 +110,11 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <Container>
+    <Container data-testid="dashboard">
       <GridList
         id="grid-list-pokemons"
         data={pokemons}
-        renderItem={renderPokeminItem}
+        renderItem={renderPokemonItem}
         fetching={fetching}
         limit={pagination.limit}
       />

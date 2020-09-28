@@ -19,7 +19,7 @@ const GridList: React.FC<Props> = ({
   limit,
 }) => {
   return (
-    <Container id={id}>
+    <Container data-testid="grid-container" id={id}>
       {fetching ? (
         <>
           <CardLoader repeat={limit} />
